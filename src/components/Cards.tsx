@@ -4,17 +4,17 @@ import { Link } from "./lib";
 import { join } from "../utils";
 
 export function Cards({ data }: { data: EnrichedEntry[] }) {
-  const cards = data.map((entry) => <Card entry={entry} />);
+  const cards = data.map((entry) => <Card entry={entry} key={entry.id} />);
   return <div>{cards} </div>;
 }
 
 function Card({ entry }: { entry: EnrichedEntry }) {
   const links = join(
-    entry.links.map((l) => <Link link={l} />),
+    entry.links.map((l) => <Link link={l} key={l} />),
     ", "
   );
   const tags = join(
-    entry.tags.map((t) => <Tag tag={t} />),
+    entry.tags.map((t) => <Tag tag={t} key={t} />),
     " "
   );
   return (
@@ -31,11 +31,12 @@ function Card({ entry }: { entry: EnrichedEntry }) {
         </div>
         <div className="timeplace">
           <div>{entry.date}</div>
+          <br></br>
           <div> {entry.state + " - " + entry.city} </div>
         </div>
-      </div>
-      <div className="hardlink">
-        <a href={"#" + entry.id}>🔗</a>
+        <div className="icons">
+          <a href={entry.edit_at}>✏️</a> <a href={"#" + entry.id}>🔗</a>
+        </div>
       </div>
     </div>
   );

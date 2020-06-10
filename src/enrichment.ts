@@ -1,4 +1,5 @@
 import type { Entry, Categories } from "./data/types";
+import { toggled } from "./utils";
 
 export type EnrichedEntry = Entry & { tags: string[] };
 
@@ -59,6 +60,20 @@ export function queryData(
 
     return tagMatch && statesMatch && titleMatch;
   });
+}
+
+export type QueryUpdates = {
+  toggleState?: string;
+  toggleTag?: string;
+  title?: string;
+};
+
+export function updateQuery(q: Query, updates: QueryUpdates): Query {
+  return {
+    title: updates.title ?? q.title,
+    states: toggled(q.states, updates.toggleState),
+    tags: toggled(q.tags, updates.toggleTag),
+  };
 }
 
 export function getCounts(data: EnrichedEntry[], filtered: EnrichedEntry[]) {

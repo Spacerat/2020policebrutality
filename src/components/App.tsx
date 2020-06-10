@@ -1,12 +1,21 @@
 import { h, Component } from "preact";
 
 import data from "../data/incidents";
+import getLatestData from "../data/api";
 import categories from "../data/categories";
 
-import type { EnrichedEntry, Query, Counts } from "../enrichment";
-import { enrich, queryData, getCounts, isQueryEmpty } from "../enrichment";
+import {
+  enrich,
+  queryData,
+  getCounts,
+  updateQuery,
+  EnrichedEntry,
+  Query,
+  Counts,
+  QueryUpdates,
+} from "../enrichment";
 
-import { joinWithFinal, toggled } from "../utils";
+import { joinWithFinal } from "../utils";
 
 import "../app.css";
 import { AppUI } from "./AppUI";
@@ -17,27 +26,6 @@ type AppState = {
   query: Query;
   counts: Counts;
 };
-
-export type UIProps = {
-  data: EnrichedEntry[];
-  query: Query;
-  counts: Counts;
-  updateQuery: (updates: QueryUpdates) => void;
-};
-
-type QueryUpdates = {
-  toggleState?: string;
-  toggleTag?: string;
-  title?: string;
-};
-
-function updateQuery(q: Query, updates: QueryUpdates): Query {
-  return {
-    title: updates.title ?? q.title,
-    states: toggled(q.states, updates.toggleState),
-    tags: toggled(q.tags, updates.toggleTag),
-  };
-}
 
 function queryToParams(query: Query): string {
   const elements = [
@@ -50,7 +38,7 @@ function queryToParams(query: Query): string {
 
   const params = elements.join("&");
 
-  return params.length > 0 ? `?${params}` : "";
+  return params.length > 0 ? `/?${params}` : "/";
 }
 
 export function queryToTitle(query: Query): string {
@@ -82,12 +70,27 @@ function updateHistory(query: Query) {
 }
 
 export class App extends Component<{}, AppState> {
-  componentWillMount() {
+  state = {
+    data: [],
+    query: { tags: [], title: "", states: [] },
+    counts: { tags: {}, states: {} },
+    filtered: [],
+  };
+
+  componentDidMount() {
     const enriched = enrich(data.data, categories);
     const query = paramsToQuery(window.location.search);
     this.setState({
       data: enriched,
       ...this.processQuery(enriched, query),
+    });
+
+    getLatestData().then((data) => {
+      const enriched = enrich(data, categories);
+      this.setState({
+        data: enriched,
+        ...this.processQuery(enriched, this.state.query),
+      });
     });
   }
 

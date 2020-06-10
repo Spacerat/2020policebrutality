@@ -6,11 +6,11 @@ This is another front-end for the data on policy brutality at 2020 George Floyd 
 
 It allows users to filter by **tag** and state and displays incidents in a relatively easy-to-consume format. The search filters update the URL, so you can send people a filtered set of results (e.g. )
 
-## To do
+## Improvement ideas
 
-- **Load latest data from source** 
 - Nicer visual design
+    - Show filters in bar on left of screen if there's enough space?
 - More tags (e.g. tags for medics, bystanders)
 - Show embeds on card click?
 - Show images somehow?
-- Optimize! (why is unclicking search so slow? can it be made quicker? also I'm binding callbacks the Bad Way (https://preactjs.com/guide/v8/linked-state/))
+- Optimize (why is unclicking search so slow? can it be made quicker? also I'm binding callbacks the Bad Way (https://preactjs.com/guide/v8/linked-state/))
