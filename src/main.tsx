@@ -1,5 +1,6 @@
 import { h, render } from "preact";
-import { App, paramsToQuery, queryToTitle } from "./components/App";
+import { App } from "./components/App";
+import { paramsToQuery, queryToTitle } from "./components/history";
 
 // Set the document title to match the search query
 document.title = queryToTitle(paramsToQuery(window.location.search));
