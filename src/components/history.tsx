@@ -10,7 +10,7 @@ function queryToParams(query: Query): string {
     query.title ? `search=${query.title}` : null,
   ].filter((x) => !!x);
   const params = elements.join("&");
-  return params.length > 0 ? `./?${params}` : "./";
+  return `?${params}`;
 }
 
 export function queryToTitle(query: Query): string {
