@@ -32,7 +32,7 @@ export function Search(props: AppUIProps) {
       <input
         type="text"
         value={props.query.title}
-        onChange={(e) => props.updateQuery({ title: e.target.value })}
+        onChange={(e) => props.updateQuery({ title: (e.target as any).value })} // not sure why .value is a type error here
       />
       <h3>Select states</h3>
       <div>{states}</div>
