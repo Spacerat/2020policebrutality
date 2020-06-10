@@ -41,7 +41,7 @@ export function AppUI(props: AppUIProps) {
         </a>
       </p>
       <Search {...props} />
-      <h2>Incidents</h2>
+      <h2>{props.data.length} Incidents</h2>
       <Cards data={props.data} />
     </div>
   );
