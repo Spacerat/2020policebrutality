@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { urlName } from "./utils";
+import { urlName } from "../utils";
 export function Button({
   title,
   count,

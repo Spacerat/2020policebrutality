@@ -8,6 +8,11 @@ export type Query = {
   title: string;
 };
 
+export type Counts = {
+  states: { [key: string]: number };
+  tags: { [key: string]: number };
+};
+
 export function enrich(data: Entry[], categories: Categories): EnrichedEntry[] {
   // Enrich all data with tags
   return data.map((entry) => enrichOne(entry, categories));
@@ -27,6 +32,7 @@ function enrichOne(data: Entry, categories: Categories): EnrichedEntry {
 }
 
 export function isQueryEmpty(query: Query) {
+  // Return true if nothing is being searched for
   return (
     query.tags.length == 0 &&
     query.states.length == 0 &&
@@ -38,7 +44,8 @@ export function queryData(
   data: EnrichedEntry[],
   query: Query
 ): EnrichedEntry[] {
-  // Return all entries which match query
+  // Return all entries which match the query, or all entries if the query is empty
+
   if (isQueryEmpty(query)) {
     return data;
   }
@@ -54,12 +61,8 @@ export function queryData(
   });
 }
 
-export type Counts = {
-  states: { [key: string]: number };
-  tags: { [key: string]: number };
-};
-
 export function getCounts(data: EnrichedEntry[], filtered: EnrichedEntry[]) {
+  // Get the count of each state and tag in 'filtered'. Use the full dataset 'data' to log zero-counts.
   const counts: Counts = { states: {}, tags: {} };
 
   data.forEach((entry: EnrichedEntry) => {

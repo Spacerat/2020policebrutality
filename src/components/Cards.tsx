@@ -1,7 +1,7 @@
 import { h } from "preact";
-import { EnrichedEntry } from "./enrichment";
+import { EnrichedEntry } from "../enrichment";
 import { Link } from "./lib";
-import { join } from "./utils";
+import { join } from "../utils";
 
 export function Cards({ data }: { data: EnrichedEntry[] }) {
   const cards = data.map((entry) => <Card entry={entry} />);

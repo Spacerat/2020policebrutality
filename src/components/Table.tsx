@@ -1,6 +1,6 @@
 import { h } from "preact";
-import { EnrichedEntry } from "./enrichment";
-import { join } from "./utils";
+import { EnrichedEntry } from "../enrichment";
+import { join } from "../utils";
 import { Link } from "./lib";
 
 export function Table({ data }: { data: EnrichedEntry[] }) {

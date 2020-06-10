@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { byFirst } from "./utils";
+import { byFirst } from "../utils";
 import { UIProps } from "./App";
 import { Button } from "./lib";
 export function Search(props: UIProps) {

@@ -1,6 +1,7 @@
 import { h, render } from "preact";
-import { App, paramsToQuery, queryToTitle } from "./App";
+import { App, paramsToQuery, queryToTitle } from "./components/App";
 
+// Set the document title to match the search query
 document.title = queryToTitle(paramsToQuery(window.location.search));
 
 const mountNode = document.getElementById("app");

@@ -1,14 +1,14 @@
 import { h, Component } from "preact";
 
-import data from "./data/incidents";
-import categories from "./data/categories";
+import data from "../data/incidents";
+import categories from "../data/categories";
 
-import type { EnrichedEntry, Query, Counts } from "./enrichment";
-import { enrich, queryData, getCounts, isQueryEmpty } from "./enrichment";
+import type { EnrichedEntry, Query, Counts } from "../enrichment";
+import { enrich, queryData, getCounts, isQueryEmpty } from "../enrichment";
 
-import { joinWithFinal, toggled } from "./utils";
+import { joinWithFinal, toggled } from "../utils";
 
-import "./app.css";
+import "../app.css";
 import { AppUI } from "./AppUI";
 
 type AppState = {
