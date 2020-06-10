@@ -3,7 +3,7 @@ body {
 }
 
 input {
-  font-size: larger;
+  font-size: large;
   margin-left: 5px;
 }
 
@@ -17,10 +17,10 @@ input {
 }
 
 button {
-  width: 15em;
+  width: 12em;
   height: 2em;
   margin: 10px 5px;
-  font-size: larger;
+  font-size: medium;
 }
 
 .card {
