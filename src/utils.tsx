@@ -64,3 +64,15 @@ export function toggled<T>(arr: T[], item?: T): T[] {
   }
   return filtered;
 }
+
+const DATE_CACHE = new Map<string, string>();
+
+export function formatDate(date: string) {
+  if (DATE_CACHE.has(date)) {
+    return DATE_CACHE.get(date);
+  }
+
+  const formatted = Intl.DateTimeFormat("en").format(Date.parse(date));
+  DATE_CACHE.set(date, formatted);
+  return formatted;
+}

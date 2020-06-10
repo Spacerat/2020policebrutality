@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { EnrichedEntry } from "../enrichment";
 import { Link } from "./lib";
-import { join } from "../utils";
+import { join, formatDate } from "../utils";
 
 export function Cards({ data }: { data: EnrichedEntry[] }) {
   const cards = data.map((entry) => <Card entry={entry} />);
@@ -30,7 +30,7 @@ function Card({ entry }: { entry: EnrichedEntry }) {
           <span>{tags}</span>
         </div>
         <div className="timeplace">
-          <div>{Intl.DateTimeFormat("en").format(Date.parse(entry.date))}</div>
+          <div>{formatDate(entry.date)}</div>
           <div> {entry.state + " - " + entry.city} </div>
         </div>
       </div>
