@@ -18,17 +18,17 @@ export function enrich(data: Entry[], categories: Categories): EnrichedEntry[] {
   return data.map((entry) => enrichOne(entry, categories));
 }
 
-function enrichOne(data: Entry, categories: Categories): EnrichedEntry {
+function enrichOne(entry: Entry, categories: Categories): EnrichedEntry {
   // Enrich an entry with tags
   const tags = Object.entries(categories)
     .filter(([_, values]) => {
       return values.find((v) =>
-        data.title.toLowerCase().includes(v.toLowerCase())
+        entry.name.toLowerCase().includes(v.toLowerCase())
       );
     })
     .map(([category, _]) => category);
 
-  return { ...data, tags };
+  return { ...entry, tags };
 }
 
 export function isQueryEmpty(query: Query) {
@@ -55,7 +55,7 @@ export function queryData(
     const tagMatch =
       tags.length === 0 || tags.every((t) => entry.tags.includes(t));
     const statesMatch = states.length === 0 || states.includes(entry.state);
-    const titleMatch = title === "" || entry.title.includes(title);
+    const titleMatch = title === "" || entry.name.includes(title);
 
     return tagMatch && statesMatch && titleMatch;
   });
