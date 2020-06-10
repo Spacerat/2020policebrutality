@@ -14,9 +14,7 @@ export type AppUIProps = {
 export function AppUI(props: AppUIProps) {
   return (
     <div className="app">
-      <h1>
-        Incidents of Police Brutality During the 2020 George Floyd protests
-      </h1>
+      <h1>Police Brutality during the 2020 George Floyd protests</h1>
       <p>
         A searchable list of incidents of police brutality during the 2020
         George Floyd protests.
