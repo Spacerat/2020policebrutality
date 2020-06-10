@@ -13,3 +13,4 @@ It allows users to filter by **tag** and state and displays incidents in a relat
 - More tags (e.g. tags for medics, bystanders)
 - Show embeds on card click?
 - Show images somehow?
+- Optimize! (why is unclicking search so slow? can it be made quicker? also I'm binding callbacks the Bad Way (https://preactjs.com/guide/v8/linked-state/))
