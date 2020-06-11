@@ -1,5 +1,5 @@
 import type { Entry, Categories } from "./data/types";
-import { toggled } from "./utils";
+import { toggled, compare } from "./utils";
 
 export type EnrichedEntry = Entry & { tags: string[] };
 
@@ -16,7 +16,14 @@ export type Counts = {
 
 export function enrich(data: Entry[], categories: Categories): EnrichedEntry[] {
   // Enrich all data with tags
-  return data.map((entry) => enrichOne(entry, categories));
+  return data
+    .map((entry) => enrichOne(entry, categories))
+    .sort((a, b) => {
+      const dateComp = compare(b.date, a.date);
+      return dateComp == 0
+        ? compare(a.state + a.city, b.state + b.city)
+        : dateComp;
+    });
 }
 
 function enrichOne(entry: Entry, categories: Categories): EnrichedEntry {

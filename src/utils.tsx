@@ -45,7 +45,7 @@ export function urlName(url: string): string {
   return hostname;
 }
 
-export function compare<T>(a: T, b: T) {
+export function compare(a: any, b: any): number {
   return a == b ? 0 : a > b ? 1 : -1;
 }
 
