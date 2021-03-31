@@ -16,3 +16,25 @@ It allows users to filter by **tag** and state and displays incidents in a relat
 - Show embeds on card click?
 - Show images somehow?
 - Optimize (why is unclicking search so slow? can it be made quicker? also I'm binding callbacks the Bad Way (https://preactjs.com/guide/v8/linked-state/))
+
+## Development
+
+Set up - install dependencies
+
+```
+yarn
+```
+
+Run locally
+
+```
+yarn start
+```
+
+Building & deploying
+
+```
+yarn build
+git commit -m "Build" .
+git push
+```

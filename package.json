@@ -1,18 +1,18 @@
 {
   "name": "2020policebrutality",
   "version": "1.0.0",
-  "description": "Browse incidents of police brutailty during 2020 George Floyd protests",
-  "main": "index.js",
+  "description": "Browse incidents of police brutality during and after the 2020 George Floyd protests",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url '/2020policebrutality/' -d ./docs"
+    "build": "parcel build src/index.html --public-url '/2020policebrutality/' --dist-dir ./docs"
   },
   "author": "spacerat3004@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "@types/url-parse": "^1.4.3",
-    "parcel-bundler": "^1.12.4",
+    "parcel": "^2.0.0-beta.2",
     "typescript": "^3.9.5"
   },
   "dependencies": {
