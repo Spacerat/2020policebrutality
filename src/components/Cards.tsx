@@ -5,7 +5,7 @@ import { join } from "../utils";
 
 export function Cards({ data }: { data: EnrichedEntry[] }) {
   const cards = data.map((entry) => <Card entry={entry} key={entry.id} />);
-  return <div>{cards} </div>;
+  return <div>{cards}</div>;
 }
 
 function Card({ entry }: { entry: EnrichedEntry }) {

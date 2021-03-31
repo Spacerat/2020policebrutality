@@ -16,8 +16,8 @@ export function AppUI(props: AppUIProps) {
     <div className="app">
       <h1>Police Brutality during the 2020 George Floyd protests</h1>
       <p>
-        A searchable list of incidents of police brutality which occurred
-        during and after the 2020 George Floyd protests.
+        A searchable list of incidents of police brutality which occurred during
+        and after the 2020 George Floyd protests.
       </p>
 
       <p>
