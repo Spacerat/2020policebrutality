@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url '/2020policebrutality/'",
+    "build": "parcel build src/index.html --public-url '/2020policebrutality/' -d ./docs",
     "format": "prettier -w src"
   },
   "author": "spacerat3004@gmail.com",
