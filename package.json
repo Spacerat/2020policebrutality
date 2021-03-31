@@ -2,11 +2,11 @@
   "name": "2020policebrutality",
   "version": "1.0.0",
   "description": "Browse incidents of police brutality during and after the 2020 George Floyd protests",
-  "main": "index.html",
+  "main": "docs/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url '/2020policebrutality/' --dist-dir ./docs"
+    "build": "parcel build src/index.html --public-url '/2020policebrutality/'"
   },
   "author": "spacerat3004@gmail.com",
   "license": "ISC",
