@@ -29,25 +29,24 @@ button {
   border-radius: 1px;
   margin: 10px;
   padding: 15px;
-  position: relative;
 }
 
 .cardcols {
   display: flex;
 }
 
-.card .title {
+.title {
   flex: 2;
   padding-right: 5px;
   flex-grow: 5;
 }
 
-.card .timeplace {
+.timeplace {
   flex: 1;
   flex-grow: 2;
 }
 
-.card .tags {
+.tags {
   flex: 1;
   padding-right: 10px;
 }
