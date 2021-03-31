@@ -26,6 +26,16 @@ export function joinWithFinal<T, S>(
   return out;
 }
 
+export function groupBy<T>(items: T[], by: (item: T) => string) {
+  const result: { [k: string]: T[] } = {};
+  for (const item of items) {
+    const key = by(item);
+    if (!result[key]) result[key] = [];
+    result[key].push(item);
+  }
+  return result;
+}
+
 export function compare<T>(a: T, b: T): number {
   return a == b ? 0 : a > b ? 1 : -1;
 }
@@ -45,10 +55,6 @@ export function toggled<T>(arr: T[], item?: T): T[] {
   }
   return filtered;
 }
-
-export const formatDate = memo((date: string) =>
-  Intl.DateTimeFormat("en").format(Date.parse(date))
-);
 
 export function memo<K, V>(func: (k: K) => V) {
   const cache = new Map<K, V>();

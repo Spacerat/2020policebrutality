@@ -1,25 +1,18 @@
-import { h } from "preact";
+import { ComponentChild, ComponentChildren, h } from "preact";
 import { urlName } from "../urlName";
-export function Button({
-  title,
-  count,
-  active,
-  onClick,
-}: {
-  title: string;
-  count: number;
+
+export type ButtonProps = {
+  count?: number;
   active: boolean;
   onClick: () => void;
-}) {
-  const text = count > 0 ? `${title} (${count})` : title;
-  const button = (
+  children: ComponentChild;
+};
+
+export function Button({ count, active, onClick, children }: ButtonProps) {
+  return (
     <button className={active ? "toggled" : ""} onClick={onClick}>
-      {text}
+      {children}
+      {count && count > 0 ? <span>{` (${count})`}</span> : null}
     </button>
   );
-  return button;
-}
-export function Link({ link }: { link: string }) {
-  const title = urlName(link);
-  return <a href={link}>{title}</a>;
 }

@@ -18,7 +18,7 @@ input {
 
 button {
   width: 12em;
-  height: 2em;
+  min-height: 2em;
   margin: 10px 5px;
   font-size: medium;
 }

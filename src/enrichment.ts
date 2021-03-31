@@ -1,25 +1,28 @@
 import type { Entry, Categories } from "./data/types";
 import { toggled, compare } from "./utils";
 
-export type EnrichedEntry = Entry & { tags: string[] };
+export type EnrichedEntry = Entry & { tags: string[]; jsDate: Date };
 
 export type Query = {
   tags: string[];
   states: string[];
   title: string;
+  start: Date | null;
 };
 
 export type Counts = {
   states: { [key: string]: number };
   tags: { [key: string]: number };
+  total: number;
 };
 
 export function enrich(data: Entry[], categories: Categories): EnrichedEntry[] {
   // Enrich all data with tags
   return data
     .map((entry) => enrichOne(entry, categories))
+    .filter((entry) => !isNaN(entry.jsDate.valueOf()))
     .sort((a, b) => {
-      const dateComp = compare(b.date, a.date);
+      const dateComp = compare(b.jsDate.valueOf(), a.jsDate.valueOf());
       return dateComp == 0
         ? compare(a.state + a.city, b.state + b.city)
         : dateComp;
@@ -36,7 +39,7 @@ function enrichOne(entry: Entry, categories: Categories): EnrichedEntry {
     })
     .map(([category, _]) => category);
 
-  return { ...entry, tags };
+  return { ...entry, tags, jsDate: new Date(entry.date) };
 }
 
 export function isQueryEmpty(query: Query) {
@@ -73,6 +76,7 @@ export type QueryUpdates = {
   toggleState?: string;
   toggleTag?: string;
   title?: string;
+  start?: Date;
 };
 
 export function updateQuery(q: Query, updates: QueryUpdates): Query {
@@ -80,12 +84,13 @@ export function updateQuery(q: Query, updates: QueryUpdates): Query {
     title: updates.title ?? q.title,
     states: toggled(q.states, updates.toggleState),
     tags: toggled(q.tags, updates.toggleTag),
+    start: updates.start ?? null,
   };
 }
 
 export function getCounts(data: EnrichedEntry[], filtered: EnrichedEntry[]) {
   // Get the count of each state and tag in 'filtered'. Use the full dataset 'data' to log zero-counts.
-  const counts: Counts = { states: {}, tags: {} };
+  const counts: Counts = { states: {}, tags: {}, total: filtered.length };
 
   data.forEach((entry: EnrichedEntry) => {
     counts.states[entry.state] = 0;

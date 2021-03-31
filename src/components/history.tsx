@@ -8,6 +8,7 @@ function queryToParams(query: Query): string {
       : null,
     query.tags.length > 0 ? query.tags.map((s) => `tag=${s}`).join("&") : null,
     query.title ? `search=${query.title}` : null,
+    query.start ? `start=${query.start.toISOString().split("T")[0]}` : null,
   ].filter((x) => !!x);
   const params = elements.join("&");
   return `?${params}`;
@@ -30,6 +31,7 @@ export function paramsToQuery(params: string): Query {
   return {
     states: parsed.getAll("state"),
     tags: parsed.getAll("tag"),
+    start: tryParseDate(parsed.get("start")),
     title: parsed.get("search") ?? "",
   };
 }
@@ -38,4 +40,10 @@ export function updateHistory(query: Query) {
   const title = queryToTitle(query);
   history.replaceState(query, title, queryToParams(query));
   document.title = title;
+}
+
+function tryParseDate(date: string | null) {
+  if (!date) return null;
+  const parsed = new Date(date);
+  return isNaN(parsed.valueOf()) ? null : parsed;
 }

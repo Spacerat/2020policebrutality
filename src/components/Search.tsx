@@ -1,38 +1,50 @@
 import { h } from "preact";
+import { useMemo } from "preact/hooks";
+import { Counts, Query, QueryUpdates } from "../enrichment";
 import { byFirst } from "../utils";
-import { AppUIProps } from "./AppUI";
+
 import { Button } from "./lib";
 
-export function Search(props: AppUIProps) {
-  const states = Object.entries(props.counts.states)
+export type SearchProps = {
+  query: Query;
+  counts: Counts;
+  updateQuery: (updates: QueryUpdates) => void;
+};
+
+export function Search(props: SearchProps) {
+  const { counts, query, updateQuery } = props;
+
+  const states = Object.entries(counts.states)
     .sort(byFirst)
     .map(([state, count]) => (
       <Button
-        title={state}
         count={count}
-        active={props.query.states.includes(state)}
-        onClick={() => props.updateQuery({ toggleState: state })}
+        active={query.states.includes(state)}
+        onClick={() => updateQuery({ toggleState: state })}
         key={state}
-      />
+      >
+        {state}
+      </Button>
     ));
-  const tags = Object.entries(props.counts.tags)
+  const tags = Object.entries(counts.tags)
     .sort(byFirst)
     .map(([tag, count]) => (
       <Button
-        title={tag}
         count={count}
-        active={props.query.tags.includes(tag)}
-        onClick={() => props.updateQuery({ toggleTag: tag })}
+        active={query.tags.includes(tag)}
+        onClick={() => updateQuery({ toggleTag: tag })}
         key={tag}
-      />
+      >
+        {tag}
+      </Button>
     ));
   return (
     <div>
       <h3>Search in title</h3>
       <input
         type="text"
-        value={props.query.title}
-        onChange={(e) => props.updateQuery({ title: (e.target as any).value })} // not sure why .value is a type error here
+        value={query.title}
+        onChange={(e) => updateQuery({ title: (e.target as any).value })} // not sure why .value is a type error here
       />
       <h3>Select states</h3>
       <div>{states}</div>

@@ -1,7 +1,8 @@
 import { h } from "preact";
 import { EnrichedEntry } from "../enrichment";
 import { Link } from "./lib";
-import { join } from "../utils";
+import { compare, groupBy, join } from "../utils";
+import { urlName } from "../urlName";
 
 export function Cards({ data }: { data: EnrichedEntry[] }) {
   const cards = data.map((entry) => <Card entry={entry} key={entry.id} />);
@@ -9,10 +10,30 @@ export function Cards({ data }: { data: EnrichedEntry[] }) {
 }
 
 function Card({ entry }: { entry: EnrichedEntry }) {
+  const grouped = groupBy(entry.links, urlName);
+
   const links = join(
-    entry.links.map((l) => <Link link={l} key={l} />),
+    Object.entries(grouped)
+      .sort(([t1, l1], [t2, l2]) => compare(t1, t2))
+      .map(([title, links]) =>
+        links.length == 1 ? (
+          <a href={links[0]}>{title}</a>
+        ) : (
+          <span>
+            {title} (
+            <span>
+              {join(
+                links.map((link, i) => <a href={link}>{i + 1}</a>),
+                ", "
+              )}
+            </span>
+            )
+          </span>
+        )
+      ),
     ", "
   );
+
   const tags = join(
     entry.tags.map((t) => <Tag tag={t} key={t} />),
     " "

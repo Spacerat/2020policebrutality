@@ -10,13 +10,13 @@ import {
   queryData,
   getCounts,
   updateQuery,
-  Query,
   QueryUpdates,
 } from "../enrichment";
 
 import "../app.css";
 import { AppUI } from "./AppUI";
 import { paramsToQuery, updateHistory } from "./history";
+import { getDateSlice, getDateSlices } from "../data/dateBucket";
 
 export function App() {
   const [query, setQuery] = useState(() =>
@@ -36,8 +36,14 @@ export function App() {
   }, []);
 
   // Computed data
-  const filtered = useMemo(() => queryData(data, query), [query, data]);
-  const counts = useMemo(() => getCounts(data, filtered), [data, filtered]);
+  const [displayData, filtered, counts, slices] = useMemo(() => {
+    const filtered = queryData(data, query);
+    const counts = getCounts(data, filtered);
+    const sliced = getDateSlice(filtered, query.start, 100);
+    const slices = getDateSlices(filtered, 100);
+
+    return [sliced, filtered, counts, slices];
+  }, [query, data]);
 
   // Define update function
   const updateQueryState = useCallback(
@@ -52,7 +58,8 @@ export function App() {
 
   return (
     <AppUI
-      data={filtered}
+      data={displayData}
+      slices={slices}
       query={query}
       counts={counts}
       updateQuery={updateQueryState}
