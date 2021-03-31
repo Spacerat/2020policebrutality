@@ -13,12 +13,12 @@
   "license": "ISC",
   "devDependencies": {
     "@types/url-parse": "^1.4.3",
-    "parcel": "^2.0.0-beta.2",
     "prettier": "^2.2.1",
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "preact": "^10.4.4",
+    "parcel-bundler": "^1.12.5",
+    "preact": "^10.5.13",
     "url-parse": "^1.4.7"
   }
 }
