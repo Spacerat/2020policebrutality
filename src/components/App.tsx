@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
-import data from "../data/incidents";
+import defaultDataRaw from "../data/incidents";
 import getLatestData from "../data/api";
 import categories from "../data/categories";
 
@@ -19,58 +20,50 @@ import "../app.css";
 import { AppUI } from "./AppUI";
 import { paramsToQuery, updateHistory } from "./history";
 
-type AppState = {
-  data: EnrichedEntry[];
-  filtered: EnrichedEntry[];
-  query: Query;
-  counts: Counts;
+const initialState = {
+  tags: [],
+  title: "",
+  states: [],
 };
 
-export class App extends Component<{}, AppState> {
-  state = {
-    data: [],
-    query: { tags: [], title: "", states: [] },
-    counts: { tags: {}, states: {} },
-    filtered: [],
-  };
+export function App() {
+  const [query, setQuery] = useState(() =>
+    paramsToQuery(window.location.search)
+  );
 
-  componentDidMount() {
-    const enriched = enrich(data.data, categories);
-    const query = paramsToQuery(window.location.search);
-    this.setState({
-      data: enriched,
-      ...this.processQuery(enriched, query),
+  // Set initial data
+  const [data, setData] = useState(() =>
+    enrich(defaultDataRaw.data, categories)
+  );
+
+  // Fetch new data on load
+  useEffect(() => {
+    getLatestData().then((newData) => {
+      setData(() => enrich(newData, categories));
     });
+  }, []);
 
-    getLatestData().then((data) => {
-      const enriched = enrich(data, categories);
-      this.setState({
-        data: enriched,
-        ...this.processQuery(enriched, this.state.query),
-      });
-    });
-  }
+  // Computed data
+  const filtered = useMemo(() => queryData(data, query), [query, data]);
+  const counts = useMemo(() => getCounts(data, filtered), [data, filtered]);
 
-  processQuery(data: EnrichedEntry[], query: Query) {
-    const filtered = queryData(data, query);
-    const counts = getCounts(data, filtered);
-    return { filtered, counts, query };
-  }
+  // Define update function
+  const updateQueryState = useCallback(
+    (updates: QueryUpdates) => {
+      setQuery(updateQuery(query, updates));
+    },
+    [query]
+  );
 
-  updateQuery(updates: QueryUpdates) {
-    const newQuery = updateQuery(this.state.query, updates);
-    updateHistory(newQuery);
-    this.setState(this.processQuery(this.state.data, newQuery));
-  }
+  // Handle history updates
+  useEffect(() => updateHistory(query), [query]);
 
-  render() {
-    return (
-      <AppUI
-        data={this.state.filtered}
-        query={this.state.query}
-        counts={this.state.counts}
-        updateQuery={(q: Query) => this.updateQuery(q)}
-      />
-    );
-  }
+  return (
+    <AppUI
+      data={filtered}
+      query={query}
+      counts={counts}
+      updateQuery={(q: Query) => updateQueryState(q)}
+    />
+  );
 }
