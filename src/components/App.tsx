@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import { h } from "preact";
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 
 import defaultDataRaw from "../data/incidents";
@@ -10,21 +10,13 @@ import {
   queryData,
   getCounts,
   updateQuery,
-  EnrichedEntry,
   Query,
-  Counts,
   QueryUpdates,
 } from "../enrichment";
 
 import "../app.css";
 import { AppUI } from "./AppUI";
 import { paramsToQuery, updateHistory } from "./history";
-
-const initialState = {
-  tags: [],
-  title: "",
-  states: [],
-};
 
 export function App() {
   const [query, setQuery] = useState(() =>
@@ -63,7 +55,7 @@ export function App() {
       data={filtered}
       query={query}
       counts={counts}
-      updateQuery={(q: Query) => updateQueryState(q)}
+      updateQuery={updateQueryState}
     />
   );
 }

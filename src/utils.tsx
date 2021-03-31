@@ -1,5 +1,3 @@
-import urlparse from "url-parse";
-
 export function join<T, S>(array: T[], joiner: S): Array<T | S> {
   const out: (T | S)[] = [];
   array.forEach((item, idx) => {
@@ -28,24 +26,7 @@ export function joinWithFinal<T, S>(
   return out;
 }
 
-const URL_CACHE = new Map<string, string>();
-
-export function urlName(url: string): string {
-  if (URL_CACHE.has(url)) {
-    return URL_CACHE.get(url);
-  }
-  let hostname = urlparse(url).hostname;
-  hostname = hostname.replace(
-    /old\.|news\.|touch\.|mobile\.|www\.|edition\.|\.com?|\.ch|\.ca|$[ivm]\.|\.org|\.au|\.live|\.net|\.uk/g,
-    ""
-  );
-  hostname = hostname.replace("redd.it", "reddit");
-  hostname = hostname.replace("youtu.be", "youtube");
-  URL_CACHE.set(url, hostname);
-  return hostname;
-}
-
-export function compare(a: any, b: any): number {
+export function compare<T>(a: T, b: T): number {
   return a == b ? 0 : a > b ? 1 : -1;
 }
 
@@ -65,14 +46,17 @@ export function toggled<T>(arr: T[], item?: T): T[] {
   return filtered;
 }
 
-const DATE_CACHE = new Map<string, string>();
+export const formatDate = memo((date: string) =>
+  Intl.DateTimeFormat("en").format(Date.parse(date))
+);
 
-export function formatDate(date: string) {
-  if (DATE_CACHE.has(date)) {
-    return DATE_CACHE.get(date);
-  }
-
-  const formatted = Intl.DateTimeFormat("en").format(Date.parse(date));
-  DATE_CACHE.set(date, formatted);
-  return formatted;
+export function memo<K, V>(func: (k: K) => V) {
+  const cache = new Map<K, V>();
+  return (k: K) => {
+    const cached = cache.get(k);
+    if (cached) return cached;
+    const result = func(k);
+    cache.set(k, result);
+    return result;
+  };
 }
