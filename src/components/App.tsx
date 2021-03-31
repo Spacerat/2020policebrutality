@@ -36,13 +36,13 @@ export function App() {
   }, []);
 
   // Computed data
-  const [displayData, filtered, counts, slices] = useMemo(() => {
+  const [displayData, counts, slices] = useMemo(() => {
     const filtered = queryData(data, query);
     const counts = getCounts(data, filtered);
     const sliced = getDateSlice(filtered, query.start, 100);
     const slices = getDateSlices(filtered, 100);
 
-    return [sliced, filtered, counts, slices];
+    return [sliced, counts, slices];
   }, [query, data]);
 
   // Define update function
